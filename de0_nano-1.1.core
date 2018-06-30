@@ -1,0 +1,119 @@
+CAPI=2:
+name : ::de0_nano:1.1
+
+filesets:
+  core_files:
+    files:
+      - sw/clear_r3_and_jump_to_0x100.vh: {file_type : user, copyto: clear_r3_and_jump_to_0x100.vh}
+      - sw/spi_uimage_loader.vh:          {file_type : user, copyto: spi_uimage_loader.vh}
+      - rtl/verilog/wb_intercon.v
+      - rtl/verilog/wb_intercon_dbg.v
+      - rtl/verilog/wb_intercon.vh:       {is_include_file : true}
+      - rtl/verilog/wb_intercon_dbg.vh:   {is_include_file : true}
+      - rtl/verilog/de0_nano_core.v
+    file_type: verilogSource
+    depend:
+      - adv_debug_sys
+      - gpio
+      - ">=i2c-1.14"
+      - ">=jtag_tap-1.13"
+      - "mor1kx-4.1"
+      - ">=or1k_bootloaders-0.9"
+      - ">=simple_spi-1.6"
+      - ">=uart16550-1.5.4"
+      - ">=wb_intercon-1.0"
+      - ">=wb_ram-1.0"
+      - ">=wb_sdram_ctrl-r2"
+
+  top_files:
+    files:
+      - backend/rtl/verilog/pll.v
+      - rtl/verilog/rst_sync.v
+      - rtl/verilog/clkgen.v
+      - rtl/verilog/de0_nano_top.v
+    file_type : verilogSource
+    depend:
+      - altera_virtual_jtag
+
+  core_tb_files:
+    files :
+      - bench/de0_nano_core_tb.v
+      - bench/spi_image.vh  : {file_type: user, copyto: spi_image.vh}
+      - bench/test-defines.v: {is_include_file : true}
+    file_type : verilogSource
+    depend:
+      #isim and xsim doesn't handle vpi
+      - "!isim? (!xsim? (>=::elf-loader:1.0.2))"
+      - "!isim? (!xsim? (jtag_vpi-r2))"
+      - ">=vlog_tb_utils-1.0"
+      - mt48lc16m16a2
+      - s25fl064p
+
+  top_tb_files:
+    files:
+      - bench/de0_nano_top_tb.v: {file_type: verilogSource}
+    depend:
+      - mt48lc16m16a2
+
+  constraints :
+    files:
+      - data/de0_nano.sdc: {file_type: SDC}
+      - data/pinmap.tcl  : {file_type: tclSource}
+
+targets:
+  synth: &synth
+    default_tool : quartus
+    filesets   :
+      - core_files
+      - top_files
+      - constraints
+    tools:
+      quartus:
+        family     : "Cyclone IV E"
+        device     : EP4CE22F17C6
+    toplevel   : [de0_nano_top]
+
+  sim:
+    default_tool : icarus
+
+    filesets:
+      - core_files
+      - core_tb_files
+    parameters:
+      - bootrom_file
+      - spi_flash_file
+    tools:
+      icarus:
+        iverilog_options : [-DICARUS_SIM, -DSIM, -DSPEEDSIM]
+      modelsim:
+        vlog_options : [+define+SIM, +define+MODELSIM_SIM, -timescale 1ns/1ps]
+        vsim_options : [-L, altera_mf_ver, -L, altera_mf]
+    toplevel : [de0_nano_core_tb]
+      
+  default:
+    <<: *synth
+
+parameters:
+  bootrom_file:
+    datatype    : file
+    description : Initial boot ROM contents (in Verilog hex format)
+    paramtype   : vlogparam
+    scope       : private
+
+  spi_flash_file:
+    datatype    : file
+    description : Initial SPI Flash contents (in Verilog hex format)
+    paramtype   : vlogparam
+    scope       : private
+
+  spi_model:
+    datatype    : bool
+    description : Use SPI Flash model in simulations
+    paramtype   : useflag
+    scope       : private
+
+#provider:
+#  name    : github
+#  user    : fusesoc
+#  repo    : de0_nano
+#  version : v1.1
