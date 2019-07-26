@@ -193,24 +193,6 @@ mor1kx #(
 	.dwbm_dat_i(wb_s2m_or1k_d_dat),
 	.dwbm_rty_i(wb_s2m_or1k_d_rty),
 
-	.avm_d_address_o (),
-	.avm_d_byteenable_o (),
-	.avm_d_read_o (),
-	.avm_d_readdata_i (32'h00000000),
-	.avm_d_burstcount_o (),
-	.avm_d_write_o (),
-	.avm_d_writedata_o (),
-	.avm_d_waitrequest_i (1'b0),
-	.avm_d_readdatavalid_i (1'b0),
-
-	.avm_i_address_o (),
-	.avm_i_byteenable_o (),
-	.avm_i_read_o (),
-	.avm_i_readdata_i (32'h00000000),
-	.avm_i_burstcount_o (),
-	.avm_i_waitrequest_i (1'b0),
-	.avm_i_readdatavalid_i (1'b0),
-
 	.irq_i(or1k_irq),
 
 	.traceport_exec_valid_o  (),
