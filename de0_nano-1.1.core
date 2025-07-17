@@ -44,7 +44,7 @@ filesets:
     depend:
       #isim and xsim doesn't handle vpi
       - "!isim? (!xsim? (>=::elf-loader:1.0.2))"
-      - "!isim? (!xsim? (jtag_vpi-r2))"
+      - "!isim? (!xsim? (>=::jtag_vpi:0-r5))"
       - ">=vlog_tb_utils-1.0"
       - mt48lc16m16a2
       - s25fl064p
