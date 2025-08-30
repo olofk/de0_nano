@@ -156,6 +156,16 @@ de0_nano_core
  .wb_rst (~rst_n),
  .sdram_clk (clk),
  .sdram_rst (~rst_n),
+ 
+ .dbg_if_select_i(dbg_if_select),
+ .dbg_if_tdo_o(dbg_if_tdo),
+ .dbg_tck_i(dbg_tck),
+ .jtag_tap_tdo_i(jtag_tap_tdo),
+ .jtag_tap_shift_dr_i(jtag_tap_shift_dr),
+ .jtag_tap_pause_dr_i(jtag_tap_pause_dr),
+ .jtag_tap_update_dr_i(jtag_tap_update_dr),
+ .jtag_tap_capture_dr_i(jtag_tap_capture_dr),
+ 
  .gpio0_io (),
  .gpio1_i (4'h0),
 	//JTAG interface
