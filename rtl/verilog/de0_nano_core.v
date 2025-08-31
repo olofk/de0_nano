@@ -224,7 +224,17 @@ mor1kx #(
 //
 ////////////////////////////////////////////////////////////////////////
 
-adbg_top dbg_if0 (
+adbg_top #(
+	.DBG_WISHBONE_SUPPORTED("ENABLED"),
+	.DBG_CPU0_SUPPORTED("ENABLED"),
+	.DBG_CPU1_SUPPORTED("NONE"),
+	// Disable the JTAG Serial Port (JSP)
+	.DBG_JSP_SUPPORTED("NONE"),
+	// If this is enabled, status bits will be skipped on burst
+	// reads and writes to improve download speeds.  OpenOCD
+	// expects it to be enabled.
+	.ADBG_USE_HISPEED("ENABLED")
+) dbg_if0 (
 	// OR1K interface
 	.cpu0_clk_i	(wb_clk),
 	.cpu0_rst_o	(or1k_dbg_rst),
