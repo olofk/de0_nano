@@ -10,19 +10,25 @@ To build and program this to your FPGA board use:
 fusesoc library add de0_nano https://github.com/olofk/de0_nano.git
 
 # Build the bitstream
-fusesoc build de0_nano
+fusesoc run de0_nano
 # Program the bitstream to your board over usb-blaster
-fusesoc pgm de0_nano
+fusesoc run --run de0_nano --pgm quartus
 ```
 
-See the [OpenRISC de0 nano tutorial](https://github.com/openrisc/tutorials/tree/master/de0_nano) for more details.
+To run the board simulation we could use:
+
+```
+fusesoc run --target sim de0_nano --jtag_vpi_enable
+```
+
+See the [OpenRISC de0 nano tutorial](https://openrisc.io/tutorials/de0_nano/) for more details.
 
 ## Parameters
 
 The following parameters are available to be set during simulation.
 
- `bootrom_file` - initail contents of the boot ROM (used with `fusesoc sim`). See `/sw/` directory for an example.
- `spi_flash_file` - initail contents of the SPI Flash (used with `fusesoc sim`). See `/bench/` directory for an example.
+ `bootrom_file` - initail contents of the boot ROM (used with `fusesoc run --target sim`). See `/sw/` directory for an example.
+ `spi_flash_file` - initail contents of the SPI Flash (used with `fusesoc run --target sim`). See `/bench/` directory for an example.
 
 ## Bootloader
 
