@@ -1,3 +1,5 @@
+# A make file for de0 nano bootrom images
+
 BOOTROM_ADDR ?= 0x80000
 
 TARGET ?= spi_uimage_loader

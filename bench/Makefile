@@ -1,3 +1,5 @@
+# A make file for de0 nano SPI Images
+
 BOOTROM_ADDR ?= 0x80000
 RESET_VECTOR ?= 0x100
 # Default loads binaries straight to reset vector,
