@@ -25,10 +25,10 @@ See the [OpenRISC de0 nano tutorial](https://openrisc.io/tutorials/de0_nano/) fo
 
 ## Parameters
 
-The following parameters are available to be set during simulation.
+The following parameters are available to be set during synthesis and simulation.
 
- `bootrom_file` - initail contents of the boot ROM (used with `fusesoc run --target sim`). See `/sw/` directory for an example.
- `spi_flash_file` - initail contents of the SPI Flash (used with `fusesoc run --target sim`). See `/bench/` directory for an example.
+ - `bootrom_file` - initial contents of the boot ROM located at address `0xf0000000`. See `/sw/` directory for an example.
+ - `spi_flash_file` - initial contents of the SPI Flash (used with `fusesoc run --target sim`). See `/bench/` directory for an example.
 
 ## Bootloader
 
