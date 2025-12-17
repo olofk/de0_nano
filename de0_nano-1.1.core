@@ -67,6 +67,8 @@ targets:
       - core_files
       - top_files
       - constraints
+    parameters:
+      - bootrom_file
     tools:
       quartus:
         family     : "Cyclone IV E"
